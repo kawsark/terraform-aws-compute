@@ -12,8 +12,8 @@ data "terraform_remote_state" "dev_network" {
 
 # simple ec2 server
 module "stemcell-server" {
-#  source = "app.terraform.io/kawsar-org/compute/aws"
-  source = "../../"
+  source = "app.terraform.io/kawsar-org/compute/aws"
+#  source = "../../"
   name       = "stemcell-server"
   ami_id     = "${data.aws_ami.ubuntu.id}"
   owner      = "${var.owner}"
