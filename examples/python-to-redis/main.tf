@@ -34,5 +34,5 @@ module "terraform-aws-appload-python2redis" {
   private_key_data = "${var.private_key_data}"
   redis_host = "localhost"
   redis_password = "asdf"
-  target_host = "${module.stemcell-server.public_dns}"
+  target_host = "${module.stemcell-server.public_dns[0]}"
 }
