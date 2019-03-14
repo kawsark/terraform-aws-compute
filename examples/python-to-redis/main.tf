@@ -10,6 +10,14 @@ data "terraform_remote_state" "dev_network" {
   }
 }
 
+# Data source for redis
+data "terraform_remote_state" "redis" {
+  backend = "atlas"
+  config {
+    name = "${var.tfe_network_org}/${var.tfe_redis_workspace}"
+  }
+}
+
 # simple ec2 server
 module "stemcell-server" {
   source     = "app.terraform.io/kawsar-org/compute/aws"
@@ -22,17 +30,16 @@ module "stemcell-server" {
   key_name   = "${var.key_name}"
   subnet_id  = "${data.terraform_remote_state.dev_network.public_subnet1_id}"
   sg_ids     = ["${data.terraform_remote_state.dev_network.security_group_id}"]
-#  user_data  = "${data.template_file.startup_script.rendered}"
-}
-
-output "public_dns" {
-  value = "${module.stemcell-server.public_dns}"
 }
 
 module "terraform-aws-appload-python2redis" {
   source  = "app.terraform.io/kawsar-org/appload-python2redis/aws"
   private_key_data = "${var.private_key_data}"
-  redis_host = "localhost"
-  redis_password = "asdf"
+  redis_host = "${data.terraform_remote_state.redis.public_dns[0]}"
+  redis_password = "${data.terraform_remote_state.redis.redis_password}"
   target_host = "${module.stemcell-server.public_dns[0]}"
+}
+
+output "public_dns" {
+  value = "${module.stemcell-server.public_dns}"
 }

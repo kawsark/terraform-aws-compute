@@ -10,6 +10,11 @@ variable "tfe_network_workspace" {
   default = "aws-network-dev"
 }
 
+variable "tfe_redis_workspace" {
+  description = "Name of TFE workspace that contains redis infrastructure"
+  default = "aws-network-redis-dev"
+}
+
 variable "aws_region" {
   description = "AWS region for Primary Vault server"
   default     = "us-east-1"
