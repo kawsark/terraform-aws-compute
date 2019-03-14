@@ -12,7 +12,7 @@ variable "tfe_network_workspace" {
 
 variable "tfe_redis_workspace" {
   description = "Name of TFE workspace that contains redis infrastructure"
-  default = "aws-network-redis-dev"
+  default = "aws-compute-redis-dev"
 }
 
 variable "aws_region" {
