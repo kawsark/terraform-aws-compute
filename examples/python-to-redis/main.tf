@@ -19,10 +19,10 @@ data "terraform_remote_state" "redis" {
 }
 
 # simple ec2 server
-module "stemcell-server" {
+module "python2redis-server" {
   source     = "app.terraform.io/kawsar-org/compute/aws"
   aws_region     = "${var.aws_region}"
-  name       = "stemcell-server"
+  name       = "python2redis-server"
   ami_id     = "${data.aws_ami.ubuntu.id}"
   owner      = "${var.owner}"
   ttl        = "${var.ttl}"
@@ -37,9 +37,9 @@ module "terraform-aws-appload-python2redis" {
   private_key_data = "${var.private_key_data}"
   redis_host = "${data.terraform_remote_state.redis.public_dns[0]}"
   redis_password = "${data.terraform_remote_state.redis.redis_password}"
-  target_host = "${module.stemcell-server.public_dns[0]}"
+  target_host = "${module.python2redis-server.public_dns[0]}"
 }
 
 output "public_dns" {
-  value = "${module.stemcell-server.public_dns}"
+  value = "${module.python2redis-server.public_dns}"
 }
