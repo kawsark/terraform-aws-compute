@@ -45,4 +45,5 @@ output "public_dns" {
 
 output "redis_password" {
   value = "${random_string.password.result}"
+  sensitive = true
 }

@@ -11,8 +11,5 @@ groupadd docker
 usermod -aG docker ubuntu
 systemctl enable docker
 
-#Download application and build image
-cd /tmp && git clone https://github.com/kawsark/redis-client-service.git -b password
-cd redis-client-service && sudo docker build -t python-clientms .
-
+# Run redis container
 sudo docker run -p 6379:6379 --name redis -d redis redis-server --requirepass ${redis_password}
