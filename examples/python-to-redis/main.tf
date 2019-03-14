@@ -22,7 +22,7 @@ module "stemcell-server" {
   key_name   = "${var.key_name}"
   subnet_id  = "${data.terraform_remote_state.dev_network.public_subnet1_id}"
   sg_ids     = ["${data.terraform_remote_state.dev_network.security_group_id}"]
-  user_data  = "${data.template_file.startup_script.rendered}"
+#  user_data  = "${data.template_file.startup_script.rendered}"
 }
 
 output "public_dns" {
