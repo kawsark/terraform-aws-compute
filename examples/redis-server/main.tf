@@ -4,9 +4,12 @@ provider "aws" {
 
 # Data source for network
 data "terraform_remote_state" "dev_network" {
-  backend = "atlas"
-  config {
-    name = var.tfe_network_org/var.tfe_network_workspace
+  backend = "remote"
+  config = {
+    organization = var.tfe_network_org
+    workspaces = {
+      name = var.tfe_network_workspace
+    }
   }
 }
 
@@ -19,7 +22,7 @@ resource "random_string" "password" {
 # Render userdata
 data "template_file" "startup_script" {
   template = "${file("${path.module}/redis.sh.tpl")}"
-  vars {
+  vars = {
     redis_password = "${random_string.password.result}"
   }
 }
@@ -35,8 +38,8 @@ module "stemcell-server" {
   ttl        = var.ttl
   instance_count      = "1"
   key_name   = var.key_name
-  subnet_id  = "${data.terraform_remote_state.dev_network.public_subnet1_id}"
-  sg_ids     = ["${data.terraform_remote_state.dev_network.security_group_id}"]
+  subnet_id  = "${data.terraform_remote_state.dev_network.outputs.public_subnet1_id}"
+  sg_ids     = ["${data.terraform_remote_state.dev_network.outputs.security_group_id}"]
   user_data  = "${data.template_file.startup_script.rendered}"
 }
 
