@@ -25,11 +25,6 @@ variable "ttl" {
 
 variable "key_name" {}
 
-variable "security_group_ingress" {
-  description = "Ingress CIDR to allow SSH and Hashistack access. Warning: setting 0.0.0.0/0 is a bad idea as this deployment does not use TLS."
-  type = "list"
-}
-
 variable "environment" {
   default = "dev"
 }
