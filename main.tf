@@ -14,6 +14,7 @@ resource "aws_instance" "demo_server" {
     sequence = var.sequence
   }
 
+  count = var.instance_count
   user_data = var.user_data
   key_name  = var.key_name
   subnet_id = var.subnet_id
