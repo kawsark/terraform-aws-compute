@@ -36,7 +36,7 @@ module "stemcell-server" {
   ami_id     = "${data.aws_ami.ubuntu.id}"
   owner      = var.owner
   ttl        = var.ttl
-  instance_count      = "1"
+  instance_count      = var.instance_count
   key_name   = var.key_name
   subnet_id  = "${data.terraform_remote_state.dev_network.outputs.public_subnet1_id}"
   sg_ids     = ["${data.terraform_remote_state.dev_network.outputs.security_group_id}"]
