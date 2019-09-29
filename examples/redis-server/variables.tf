@@ -29,3 +29,6 @@ variable "environment" {
   default = "dev"
 }
 
+variable "instance_count" {
+  default = 1  
+}
